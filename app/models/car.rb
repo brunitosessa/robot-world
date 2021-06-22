@@ -1,9 +1,14 @@
 class Car < ApplicationRecord
+    belongs_to :computer, optional: true
     belongs_to :model
     has_many :parts
+    has_many :events
 
-    validates :year, presence: :true
+    validates_presence_of :year, :model
+    validates_uniqueness_of :computer_id, allow_nil: true
+    
 
+    accepts_nested_attributes_for :computer
 
     ###################
     ## CLASS METHODS
@@ -11,18 +16,18 @@ class Car < ApplicationRecord
 
     # Class method to check factory stock by model
     def self.check_factory_stock(model)
-        Car.where('location = ?', 'warehouse').includes(:model).where(models: {name: model}).count
+        Car.where('location = ?', 'warehouse').includes(:model).where(models: model).count
     end
 
     # Class method to check store stock by model
     def self.check_store_stock(model)
-        Car.where('location = ?', 'store').includes(:model).where(models: {name: model}).count
+        Car.where('location = ?', 'store').includes(:model).where(models: model).count
     end
 
     # Class method to get a car by model to sell, if none available, return 0
     def self.get_car_to_sell(model)
         if self.check_store_stock(model) > 0
-            self.where(location: "store").includes(:model).where(models: {name: model}).first
+            self.where(location: "store").includes(:model).where(models: model).first
         else
             false
         end
@@ -32,16 +37,19 @@ class Car < ApplicationRecord
     ## INSTANCE METHODS
     ###################
 
-    # Instance method to returns CarComputer object from car
-    def computer
-        self.parts.where('type = ?', 'CarComputer').first
-    end
-
     # Instance method to sell a car
     def sell
         if self.status = "complete" && self.location = 'store'
             self.status = "sold"
             self.location = "sold"
+        end
+    end
+
+    # Instance method to return a car
+    def return
+        if self.status = 'sold' && self.location = 'sold'
+            self.status = 'complete'
+            self.location = 'store'
         end
     end
 
@@ -52,16 +60,5 @@ class Car < ApplicationRecord
         else
             return car.status
         end
-    end
-
-    # Instance method that returns parts name with defects, False if none
-    def has_defects?
-        defects = []
-        self.parts.each do |part|
-            if (part.defect == true)
-                defects.push(part.part_type.name)
-            end
-        end
-        defects.empty? ? false : defects 
     end
 end

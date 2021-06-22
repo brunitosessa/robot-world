@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_21_000420) do
+ActiveRecord::Schema.define(version: 2021_06_22_132501) do
 
   create_table "cars", charset: "utf8mb4", force: :cascade do |t|
     t.integer "year"
@@ -20,7 +20,24 @@ ActiveRecord::Schema.define(version: 2021_06_21_000420) do
     t.float "price"
     t.float "cost_price"
     t.bigint "model_id", null: false
+    t.bigint "computer_id"
+    t.index ["computer_id"], name: "index_cars_on_computer_id"
     t.index ["model_id"], name: "index_cars_on_model_id"
+  end
+
+  create_table "computers", charset: "utf8mb4", force: :cascade do |t|
+  end
+
+  create_table "events", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.bigint "car_id"
+    t.bigint "order_id"
+    t.bigint "model_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["car_id"], name: "index_events_on_car_id"
+    t.index ["model_id"], name: "index_events_on_model_id"
+    t.index ["order_id"], name: "index_events_on_order_id"
   end
 
   create_table "models", charset: "utf8mb4", force: :cascade do |t|
@@ -40,7 +57,6 @@ ActiveRecord::Schema.define(version: 2021_06_21_000420) do
   end
 
   create_table "parts", charset: "utf8mb4", force: :cascade do |t|
-    t.string "type"
     t.boolean "defect"
     t.bigint "car_id"
     t.bigint "part_type_id", null: false
@@ -49,7 +65,11 @@ ActiveRecord::Schema.define(version: 2021_06_21_000420) do
     t.index ["part_type_id"], name: "index_parts_on_part_type_id"
   end
 
+  add_foreign_key "cars", "computers"
   add_foreign_key "cars", "models"
+  add_foreign_key "events", "cars"
+  add_foreign_key "events", "models"
+  add_foreign_key "events", "orders"
   add_foreign_key "orders", "cars"
   add_foreign_key "parts", "cars"
   add_foreign_key "parts", "part_types"

@@ -1,6 +1,6 @@
 module Utilities
     def random_model
-        Model.all.to_a.sample
+        Model.all.sample
     end
 
     def random_year
@@ -28,7 +28,6 @@ module Utilities
     def random_parts_2
         parts = []
         parts.push(Part.new(part_type_id: 9, defect: ([false]*9 << true).sample))
-        parts.push(CarComputer.new(part_type_id: 10, defect: ([false]*9 << true).sample))
         parts
     end
 end

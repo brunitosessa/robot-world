@@ -19,12 +19,17 @@ class CarFactory
     def basic_structure(basic_parts)
         @car.parts << basic_parts
         @car.status = "basic_parts_complete"
+        # Add to events
+        @car.events << Event.new(name: "Basic Structure Done")
     end
 
     # Calls 2nd line of car production
-    def electronic_devices(electronic_parts)
+    def electronic_devices(electronic_parts, computer)
         @car.parts << electronic_parts
+        @car.computer = computer
         @car.status = "electronic_devices"
+        # Add to events
+        @car.events << Event.new(name: "Electronic Devices Done")
     end
 
     # Call 3th line of car production
@@ -32,6 +37,8 @@ class CarFactory
         @car.is_painted = true
         @car.location = "warehouse"
         @car.status = "complete"
+        # Add to events
+        @car.events << Event.new(name: "Complete in Warehouse")
     end
 
     #Returns complete car

@@ -12,6 +12,10 @@ class RobotBuilder
         @instance
     end
 
+    ###################
+    ## INSTANCE METHODS
+    ###################
+
     def create_car
         # Create Car
         car = Car.new
@@ -30,21 +34,23 @@ class RobotBuilder
 
         # Create Car Factory
         car_factory = CarFactory.new(car)
+    
 
         # Run 1th line of car production
         car_factory.basic_structure(basic_parts)
+
         # Run 2nd line of car production
-        car_factory.electronic_devices(electronic_parts)
+        car_factory.electronic_devices(electronic_parts, Computer.new)
         # Run 3th line of car production
         car_factory.painting_and_final_details()
 
         #returns complete car
         car = car_factory.car
-        car.save
+        car.save!
 
 
         #ESTO NO IRIA, ES PARA TESTING
-        if defects = car.has_defects?
+        if defects = car.computer.has_defects?
             puts "AUTO CON FALLAS en #{defects}"
         else
             puts "AUTO SIN FALLAS"
