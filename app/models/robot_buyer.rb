@@ -1,23 +1,18 @@
 require 'utilities'
 
 class RobotBuyer
-    include Utilities
+    extend Utilities
 
-    # Singleton Class
-    @instance = new
+    ###################
+    ## CLASS METHODS
+    ###################
 
-    private_class_method :new
-
-    def self.instance
-        @instance
+    def self.start_buying
+        (1..(1..10).sample).each { self.buy_car }
     end
 
-    ###################
-    ## INSTANCE METHODS
-    ###################
-
     # Method for buying a random model car
-    def buy_car(model = random_model)
+    def self.buy_car(model = random_model)
         
         # If there is stock in store, returns first Car to sell of that model
         if (car_to_sell = Car.get_car_to_sell(model))
@@ -36,7 +31,7 @@ class RobotBuyer
         end
     end
 
-    def change_order(order_id, model = random_model)
+    def self.change_order(order_id, model = random_model)
         # If there is stock on store of new model car
         if (new_car = Car.get_car_to_sell(model))
             # Get the order

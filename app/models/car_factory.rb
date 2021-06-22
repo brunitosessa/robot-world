@@ -21,6 +21,7 @@ class CarFactory
         @car.status = "basic_parts_complete"
         # Add to events
         @car.events << Event.new(name: "Basic Structure Done")
+        @car.save
     end
 
     # Calls 2nd line of car production
@@ -30,6 +31,7 @@ class CarFactory
         @car.status = "electronic_devices"
         # Add to events
         @car.events << Event.new(name: "Electronic Devices Done")
+        @car.save
     end
 
     # Call 3th line of car production
@@ -39,6 +41,7 @@ class CarFactory
         @car.status = "complete"
         # Add to events
         @car.events << Event.new(name: "Complete in Warehouse")
+        @car.save
     end
 
     #Returns complete car

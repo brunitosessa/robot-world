@@ -24,6 +24,11 @@ class Car < ApplicationRecord
         Car.where('location = ?', 'store').includes(:model).where(models: model).count
     end
 
+    # Class method that return defective cars
+    def self.defective_cars
+        Car.where('location = ?' ,'warehouse').includes(:parts).where(parts: {defect: true})
+    end
+
     # Class method to get a car by model to sell, if none available, return 0
     def self.get_car_to_sell(model)
         if self.check_store_stock(model) > 0

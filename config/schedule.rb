@@ -1,20 +1,15 @@
-# Use this file to easily define all of your cron jobs.
-#
-# It's helpful, but not entirely necessary to understand cron before proceeding.
-# http://en.wikipedia.org/wiki/Cron
+# Every minute build 10 cars
+every 1.minute do
+    runner 'RobotBuilder.start_building(ammount=10)'
+end
 
-# Example:
-#
-# set :output, "/path/to/my/cron_log.log"
-#
-# every 2.hours do
-#   command "/usr/bin/some_great_command"
-#   runner "MyModel.some_method"
-#   rake "some:great:rake:task"
-# end
-#
-# every 4.days do
-#   runner "AnotherModel.prune_old_records"
-# end
+# Every 30 minuts RobotGuard send non defective cars to store
+# And send Slack message and save event on defective cars
+every 30.minutes do
+    runner 'RobotGuard.transfer_stock_to_store'
+end
 
-# Learn more: http://github.com/javan/whenever
+# At the beggin of day, erase all cars
+every :day do
+    runner 'Car.delete_all'
+end

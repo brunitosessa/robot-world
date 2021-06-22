@@ -65,12 +65,12 @@ ActiveRecord::Schema.define(version: 2021_06_22_132501) do
     t.index ["part_type_id"], name: "index_parts_on_part_type_id"
   end
 
-  add_foreign_key "cars", "computers"
+  add_foreign_key "cars", "computers", on_delete: :cascade
   add_foreign_key "cars", "models"
-  add_foreign_key "events", "cars"
-  add_foreign_key "events", "models"
-  add_foreign_key "events", "orders"
-  add_foreign_key "orders", "cars"
-  add_foreign_key "parts", "cars"
+  add_foreign_key "events", "cars", on_delete: :cascade
+  add_foreign_key "events", "models", on_delete: :cascade
+  add_foreign_key "events", "orders", on_delete: :cascade
+  add_foreign_key "orders", "cars", on_delete: :cascade
+  add_foreign_key "parts", "cars", on_delete: :cascade
   add_foreign_key "parts", "part_types"
 end

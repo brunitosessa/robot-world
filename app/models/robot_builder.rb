@@ -1,22 +1,21 @@
 require 'utilities'
 
 class RobotBuilder
-    include Utilities
+    extend Utilities
 
-    # Singleton Class
-    @instance = new
+    ###################
+    ## CLASS METHODS
+    ###################
 
-    private_class_method :new
-
-    def self.instance
-        @instance
+    # Class method that starts building cars
+    # Parameter is the quantity of cars to build. If none 1 is default.
+    def self.start_building(ammount = 1)
+        (1..ammount).each { self.create_car }
     end
 
-    ###################
-    ## INSTANCE METHODS
-    ###################
+    # Class method that creates a complete car
+    def self.create_car
 
-    def create_car
         # Create Car
         car = Car.new
         
