@@ -1,4 +1,8 @@
+require 'utilities'
+
 class RobotGuard
+
+    extend Utilities
 
     ###################
     ## CLASS METHODS
@@ -10,15 +14,22 @@ class RobotGuard
         # Get all warehouse cars
         warehouse_cars = Car.where('location = ?', 'warehouse').where('status = ?', 'complete')
 
-        # Cars with no defects
-        defectives, non_defectives = warehouse_cars.partition {|c| c.computer.has_defects? }
+        # If warehouse is not empty
+        if warehouse_cars.count > 0
+            # Cars with no defects
+            defectives, non_defectives = warehouse_cars.partition {|c| c.computer.has_defects? }
 
-        # Move non defectives to store
-        self.move_cars(non_defectives)
+            # Move non defectives to store
+            self.move_cars(non_defectives)
 
-        # Sends Slack messages
-        # Add event
-        self.handle_defectives(defectives)
+            #REMOVE DEFECTIVE CARS HERE
+
+            # Sends Slack messages
+            send_slack(url: https://slack.com/api/chat.postMessage, message="Probando desde Ruby padre")
+
+            # Add event
+            self.handle_defectives(defectives)
+        end
         
     end
 

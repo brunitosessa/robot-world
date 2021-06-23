@@ -12,7 +12,10 @@
 
 ActiveRecord::Schema.define(version: 2021_06_22_132501) do
 
-  create_table "cars", charset: "utf8mb4", force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "cars", force: :cascade do |t|
     t.integer "year"
     t.boolean "is_painted", default: false, null: false
     t.string "status", default: "new", null: false
@@ -25,10 +28,10 @@ ActiveRecord::Schema.define(version: 2021_06_22_132501) do
     t.index ["model_id"], name: "index_cars_on_model_id"
   end
 
-  create_table "computers", charset: "utf8mb4", force: :cascade do |t|
+  create_table "computers", force: :cascade do |t|
   end
 
-  create_table "events", charset: "utf8mb4", force: :cascade do |t|
+  create_table "events", force: :cascade do |t|
     t.string "name"
     t.bigint "car_id"
     t.bigint "order_id"
@@ -40,23 +43,23 @@ ActiveRecord::Schema.define(version: 2021_06_22_132501) do
     t.index ["order_id"], name: "index_events_on_order_id"
   end
 
-  create_table "models", charset: "utf8mb4", force: :cascade do |t|
+  create_table "models", force: :cascade do |t|
     t.string "name"
   end
 
-  create_table "orders", charset: "utf8mb4", force: :cascade do |t|
+  create_table "orders", force: :cascade do |t|
     t.bigint "car_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["car_id"], name: "index_orders_on_car_id"
   end
 
-  create_table "part_types", charset: "utf8mb4", force: :cascade do |t|
+  create_table "part_types", force: :cascade do |t|
     t.string "name"
     t.string "assembly_line"
   end
 
-  create_table "parts", charset: "utf8mb4", force: :cascade do |t|
+  create_table "parts", force: :cascade do |t|
     t.boolean "defect"
     t.bigint "car_id"
     t.bigint "part_type_id", null: false

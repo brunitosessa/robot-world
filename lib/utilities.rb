@@ -1,6 +1,8 @@
+require 'net/http'
+
 module Utilities
     def random_model
-        Model.all.sample
+        Model.all.to_a.sample
     end
 
     def random_year
@@ -29,5 +31,17 @@ module Utilities
         parts = []
         parts.push(Part.new(part_type_id: 9, defect: ([false]*9 << true).sample))
         parts
+    end
+
+    def send_slack(url, message)
+        req = Net::HTTP.post(
+            URI(url), 
+            { 
+                "text" => message,
+                "channel" => 'C025DUQC64E'
+            }.to_json, 
+            "Content-Type" => "application/json",
+            "Authorization" => 'Bearer xoxb-2190920489427-2183981284342-zG0Fuvh6thLFSKCsbGFpoOkw'
+          )
     end
 end

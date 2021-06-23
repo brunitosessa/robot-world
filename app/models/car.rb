@@ -1,6 +1,7 @@
 class Car < ApplicationRecord
     belongs_to :computer, optional: true
     belongs_to :model
+    has_one :order
     has_many :parts
     has_many :events
 
@@ -26,7 +27,7 @@ class Car < ApplicationRecord
 
     # Class method that return defective cars
     def self.defective_cars
-        Car.where('location = ?' ,'warehouse').includes(:parts).where(parts: {defect: true})
+        Car.where('location = ?' ,'warehouse').joins(:parts).where('parts.defect = ?', true)
     end
 
     # Class method to get a car by model to sell, if none available, return 0
@@ -44,7 +45,7 @@ class Car < ApplicationRecord
 
     # Instance method to sell a car
     def sell
-        if self.status = "complete" && self.location = 'store'
+        if self.status == "complete" && self.location == 'store'
             self.status = "sold"
             self.location = "sold"
         end
@@ -52,18 +53,17 @@ class Car < ApplicationRecord
 
     # Instance method to return a car
     def return
-        if self.status = 'sold' && self.location = 'sold'
+        if self.status == 'sold' && self.location == 'sold'
             self.status = 'complete'
             self.location = 'store'
         end
     end
 
-    # Instance method to returns True if car is complete or the line in production
     def is_complete?
-        if car.status == "complete"
+        if self.status == 'complete'
             return true
         else
-            return car.status
+            return self.status
         end
     end
 end

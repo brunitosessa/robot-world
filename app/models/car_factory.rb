@@ -1,4 +1,8 @@
+require 'utilities'
+
 class CarFactory
+    include Utilities
+
     attr_reader :car
 
     def initialize(car=nil)
@@ -12,6 +16,8 @@ class CarFactory
     # Give us an empty car in the factory
     def reset
         @car = Car.new
+        @car.model= random_model 
+        @car.year=Time.current.year
     end
     
 
