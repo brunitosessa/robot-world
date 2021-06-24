@@ -27,7 +27,7 @@ class Car < ApplicationRecord
 
     # Class method that return defective cars
     def self.defective_cars
-        Car.where('location = ?' ,'warehouse').joins(:parts).where('parts.defect = ?', true)
+        Car.where('location = ?' ,'warehouse').joins(:parts).where('parts.defect = ?', true).distinct(true)
     end
 
     # Class method to get a car by model to sell, if none available, return 0
@@ -37,6 +37,16 @@ class Car < ApplicationRecord
         else
             false
         end
+    end
+
+    # Class method to get all cars in warehouse
+    def self.in_warehouse
+        return Car.where('location = ?', 'warehouse')
+    end
+
+    # Class method to get all cars in store
+    def self.in_store
+        return Car.where('location = ?', 'store')
     end
 
     ###################

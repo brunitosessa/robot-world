@@ -1,8 +1,4 @@
-require 'utilities'
-
 class RobotGuard
-
-    extend Utilities
 
     ###################
     ## CLASS METHODS
@@ -12,7 +8,7 @@ class RobotGuard
     # If defective cars, sends a Slack message and save that event
     def self.transfer_stock_to_store
         # Get all warehouse cars
-        warehouse_cars = Car.where('location = ?', 'warehouse').where('status = ?', 'complete')
+        warehouse_cars = Car.in_warehouse
 
         # If warehouse is not empty
         if warehouse_cars.count > 0
@@ -22,16 +18,17 @@ class RobotGuard
             # Move non defectives to store
             self.move_cars(non_defectives)
 
-            #REMOVE DEFECTIVE CARS HERE
-
-            # Sends Slack messages
-            send_slack(url: https://slack.com/api/chat.postMessage, message="Probando desde Ruby padre")
-
-            # Add event
-            self.handle_defectives(defectives)
+            #Send Slack notification with quantity of defectives cars
+            self.send_defectives_slack_message(defectives)
         end
         
     end
+
+    def self.remove_defectives
+        Car.defective_cars.destroy_all
+    end 
+
+    private
 
     # Instance method that move cars to Store
     # Receives list of cars to be moved
@@ -44,9 +41,18 @@ class RobotGuard
         end
     end
 
-    def self.handle_defectives(defectives)
-        defectives.each do |car|
-            car.events << Event.new(name: "Not moved because defective")
-        end
+    # Private method that create and sends the slack message
+    def self.send_defectives_slack_message(defectives)
+        slack_message = SlackMessage.new
+        slack_message.url = TEST_SLACK_URL
+        slack_message.message = "Message from RobotGuard :robot_face:"
+        slack_message.attachments = [
+            {
+                "title": ":warning: You have #{defectives.count} defective cars in the Warehouse :car:",
+                "text": "<http://localhost:3000/api/v1/cars/defectives|Click here for more info!>"
+            }
+        ]
+
+        slack_message.send_later
     end
 end

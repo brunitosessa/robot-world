@@ -1,5 +1,3 @@
-require 'net/http'
-
 module Utilities
     def random_model
         Model.all.to_a.sample
@@ -21,7 +19,7 @@ module Utilities
     def random_parts_1
         parts = []
         (1..8).each do |id|
-            parts.push(Part.new(part_type_id: id, defect: ([false]*9 << true).sample))
+            parts.push(Part.new(part_type_id: id, defect: ([false]*19 << true).sample))
         end
         parts
     end
@@ -33,15 +31,15 @@ module Utilities
         parts
     end
 
-    def send_slack(url, message)
+    def send_slack2(url, message, attachments)
         req = Net::HTTP.post(
-            URI(url), 
+            URI(SLACK_URL), 
             { 
                 "text" => message,
-                "channel" => 'C025DUQC64E'
+                "attachments" => attachments,
             }.to_json, 
             "Content-Type" => "application/json",
-            "Authorization" => 'Bearer xoxb-2190920489427-2183981284342-zG0Fuvh6thLFSKCsbGFpoOkw'
           )
+          puts "REQUEST!!!!!!!!!!!: #{req.body}"
     end
 end
