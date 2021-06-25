@@ -66,6 +66,9 @@ Making the robot execs happy would be a good idea, it would be great to pull the
 Primero que nada, gracias por darme la oportunidad de hacer este challenge. Fué muy divertido y aprendí un monton.
 Quería comentarles algunas consideraciones que tome para que se entienda mejor la resolución.
 
+Usuario de DB: robot-world
+Password: password
+
 - Los modelos de los autos (Renault, Peugeot, etc) y los tipos de partes (Rueda1, Motor, asiento1, etc) estan agregados en seeds.rb para que se carguen automaticamente.
 
 - Generé 3 robot con clases estáticas, que son llamados con 'whenever' según solicita el enunciado.
