@@ -124,6 +124,8 @@ Password: password
 
 - Al principio puse el envío del mensaje de slack como asincrono en un job (No lo eliminé asique pueden verlo en slack_defective_cars_job.rb). Funcionaba bien ejecutandolo desde la consola, pero desde las tareas en el crontab, la llamada asincrona no se realizaba. Investigué un poco e instalé sidekiq y redis para poder tener los jobs en memoria, pero creo que se iba un poco del objetivo del challenge, asique decidí ponerlo inline y que envié el mensaje de forma sincrona.
 
+- En el archivo constants.rb coloqué la URL de slack.
+
 - Realicé los tests con Rspec. Hice de los modelos y de los requests.
 
 - Traté de generarles un archivo docker-compose.yml para que sea mas facil la prueba de este challenge (Tanto un server rails como uno postgres), pero no llegué con el tiempo (está hasta donde llegué los archivos Dockerfile y docker-compose.yml)

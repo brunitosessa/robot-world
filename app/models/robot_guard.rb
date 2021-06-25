@@ -44,7 +44,7 @@ class RobotGuard
     # Private method that create and sends the slack message
     def self.send_defectives_slack_message(defectives)
         slack_message = SlackMessage.new
-        slack_message.url = TEST_SLACK_URL
+        slack_message.url = SLACK_URL
         slack_message.message = "Message from RobotGuard :robot_face:"
         slack_message.attachments = [
             {
