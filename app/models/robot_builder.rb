@@ -21,7 +21,7 @@ class RobotBuilder
         
         # Randomly generate Car data
         car.model = random_model
-        car.year = random_year
+        car.year = Time.current.year
         car.price = random_price
         car.cost_price = random_cost_price
 
@@ -41,22 +41,10 @@ class RobotBuilder
         # Run 2nd line of car production
         car_factory.electronic_devices(electronic_parts, Computer.new)
         # Run 3th line of car production
-        car_factory.painting_and_final_details()
+        car_factory.painting_and_final_details
 
         #returns complete car
         car = car_factory.car
-        car.save!
-
-
-        #ESTO NO IRIA, ES PARA TESTING
-        if defects = car.computer.has_defects?
-            puts "AUTO CON FALLAS en #{defects}"
-        else
-            puts "AUTO SIN FALLAS"
-        end
-    end
-
-    def change_order
-
+        car.save
     end
 end

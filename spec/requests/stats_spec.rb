@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe "Stats", type: :request do
-  describe "GET /index" do
-    pending "add some examples (or delete) #{__FILE__}"
+  describe "stats" do
+    it 'get all stats' do
+      get '/api/v1/stats/daily'
+      expect(response).to have_http_status(:success)
+    end
   end
 end

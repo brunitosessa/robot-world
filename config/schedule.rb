@@ -10,11 +10,11 @@ end
 
 # Every 30 minuts RobotGuard send non defective cars to store
 # And send Slack message and save event on defective cars
-every 1.minutes do
+every 30.minutes do
     runner 'RobotGuard.transfer_stock_to_store'
 end
 
 # At the beggin of day, erase all cars
-every 50.minute do
+every :day do
     runner 'RobotGuard.remove_defectives'
 end

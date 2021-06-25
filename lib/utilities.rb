@@ -3,10 +3,6 @@ module Utilities
         Model.all.to_a.sample
     end
 
-    def random_year
-        (1990..2021).to_a.sample
-    end
-
     def random_price
         (100000..1000000).to_a.sample
     end

@@ -9,8 +9,6 @@ class Car < ApplicationRecord
     validates_uniqueness_of :computer_id, allow_nil: true
     
 
-    accepts_nested_attributes_for :computer
-
     ###################
     ## CLASS METHODS
     ###################

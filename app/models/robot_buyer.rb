@@ -48,22 +48,33 @@ class RobotBuyer
                     if old_car.return
                         # Mark new car as sold
                         if new_car.sell
-                            # Save new car into order
-                            new_car.order = order
 
-                            #Save new and old cars
+                            # Save new car
                             new_car.save
+
+                            # Save old car
                             old_car.save
 
+                            # Save new car into order
+                            order.car = new_car
+
+                            # Save order
+                            order.save
+                            
                             # Add to events
                             order.events << Event.new(name: "Order changed", car:old_car)
                             new_car.events << Event.new(name: "Sold", order: order)    
+
+                            puts "Order #{order.id} changed from car #{old_car.id} to #{new_car.id}"
+                        else
+                            puts "Error selling new car"
                         end
                     else
                         puts "Error returning car"
                     end
                 # No stock of new car model
                 else
+                    puts "Missing Stock Model: #{model.id}"
                     # Add to events
                     model.events << Event.new(name: "Missing Stock")
                 end

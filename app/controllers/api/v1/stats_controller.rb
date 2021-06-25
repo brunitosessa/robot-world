@@ -6,7 +6,6 @@ module Api
                 profit = sold_cars.sum(&:price)
                 expenses = sold_cars.sum(&:cost_price)
 
-
                 render_json = {
                     day: Time.now.strftime("%d/%m/%Y at %k:%M"),
                     total_profit: profit,

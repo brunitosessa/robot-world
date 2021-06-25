@@ -13,6 +13,7 @@ describe Part, type: :model do
         )
     }
 
+    # Active Records
     it "is valid with valid attributes" do
         expect(subject).to be_valid
     end
@@ -28,7 +29,13 @@ describe Part, type: :model do
     end
 
     it 'is valid when not belongs to car' do
-        subject.car_id = nil
-        should_not validate_presence_of(:car)
+        expect(subject).not_to belong_to(:car)
     end
+
+    it 'is valid when belongs to part_type' do
+        expect(subject).to belong_to(:part_type)
+    end
+
+    # Database
+    it { expect(subject).to have_db_index([:part_type_id, :car_id]).unique(:true)}
 end

@@ -52,7 +52,6 @@ class RobotGuard
                 "text": "<http://localhost:3000/api/v1/cars/defectives|Click here for more info!>"
             }
         ]
-
-        slack_message.send_later
+        slack_message.send
     end
 end

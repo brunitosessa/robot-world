@@ -1,3 +1,5 @@
+require 'net/http'
+
 class SlackMessage < Message
 
     attr_accessor :attachments
@@ -7,7 +9,16 @@ class SlackMessage < Message
         @attachments = attachments
     end
 
-    def send_later
-        SlackDefectiveCarsJob.perform_later(TEST_SLACK_URL, self.message, self.attachments)
+    def send
+        # Sends Slack messages
+        req = Net::HTTP.post(
+        URI(self.url), 
+        { 
+            "text" => self.message,
+            "attachments" => self.attachments,
+        }.to_json, 
+        "Content-Type" => "application/json",
+      )
+      req.body
     end
 end
